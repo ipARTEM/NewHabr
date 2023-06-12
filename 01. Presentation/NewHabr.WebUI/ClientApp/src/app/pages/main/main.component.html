@@ -1,0 +1,103 @@
+<div class="main-container">
+    <div class="nav-container">
+        <nav class="nav-container-nav">
+            <ul class="nav" *ngFor="let item of menu">
+                <li class="nav-item">
+                    <i [ngClass]="item.iClass"></i><a class="nav-link active" aria-current="page" [routerLink]="item.url">{{ item.name }}</a>
+                </li>
+            </ul>
+            <ul class="nav" *ngIf="notifications.length > 0 && isAuth">
+                <li class="nav-item">
+                    <i class="bi bi-bell-fill" style="display: inline-block" [@notify]="notifyPos"></i>
+                    <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#notifyModal">Уведомления ({{notifications.length}})</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="main-container-grid">
+        <div class="content-area">
+            <router-outlet></router-outlet>
+        </div>
+        <div>
+            <div class="account-container">
+                <div *ngIf="isAuth; else login" class="user-container">
+                    <div class="emoji">
+                        <i *ngIf="!userInfo?.Banned" class="bi bi-person-check"></i>
+                        <i *ngIf="userInfo?.Banned" class="bi bi-emoji-dizzy-fill"></i>
+                    </div>
+                    <div class="login">
+                        <span>Привет, {{ auth?.User?.UserName }}!</span>
+                    </div>
+                    <button [class.disable]="!userInfo?.Banned"
+                            type="button" class="btn btn-secondary ban"
+                            data-bs-toggle="tooltip" data-bs-placement="left"
+                            data-bs-custom-class="custom-tooltip"
+                            [attr.data-bs-title]="blockString">
+                        Аккаунт временно заблокирован
+                    </button>
+                    <hr>
+                    <div class="info">
+                        Ваша роль - <strong>{{ auth?.User!.Roles[0] }}</strong>
+                    </div>
+                    <div class="nav">
+                        <button type="button" class="btn btn-light" (click)="navigate(['accounts', auth?.User?.Id, 'profile'])">Мой профиль</button>
+                        <button type="button" class="btn btn-light" (click)="navigate(['accounts', auth?.User?.Id, 'articles'])">Мои статьи</button>
+                        <button type="button" class="btn btn-light" *ngIf="isModerator || isAdmin" (click)="navigate(['moderation'])">
+                            {{isAdmin ? 'Страница администратора' : 'Страница модератора'}}
+                        </button>
+                        <button type="button" class="btn btn-light" (click)="logout()">Выйти</button>
+                    </div>
+                </div>
+                <ng-template #login class="user-container">
+                    <div class="emoji">
+                        <i class="bi bi-person-lines-fill"></i>
+                    </div>
+                    <div class="login">
+                        <span>Привет, Гость!</span>
+                    </div>
+                    <hr>
+                    <div class="nav">
+                        <button type="button" class="btn btn-light" (click)="navigate(['accounts', 'login'])">Авторизация</button>
+                        <div>
+                            Еще не завели аккаунт? <a [routerLink]="'accounts/register'">Зарегистрируйтесь</a>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+
+            <div class="account-container mt-2 p-3">
+                <span class="title">Топ 10 статей</span>
+                <div class="unit" *ngFor="let post of publications">
+                    <span class="raiting float-start">{{post.LikesCount}}</span>
+                    <span (click)="navigate(['publications/' + post.Id])" class="link">{{post.Title}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div>
+            Разработано командой GBDev1-FirstTeam
+        </div>
+        <div>
+            GitHub проекта <a target="_blank" href="https://github.com/GBDev1-FirstTeam/new-habr"><i class="bi bi-github"></i></a>
+        </div>
+    </footer>
+</div>
+
+<!-- Модальное окно уведомлений -->
+<div class="modal modal-lg" id="notifyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Уведомления</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let notification of notifications; let i = index" class="notify-item">
+            <div>{{i + 1}}) {{notification.Text}}</div>
+            <div (click)="deleteNotify(notification.Id)" class="delete">Удалить</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

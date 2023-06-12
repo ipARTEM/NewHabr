@@ -1,0 +1,5 @@
+{
+    "backend": {
+        "baseURL": "http://localhost:5168/api"
+    }
+}

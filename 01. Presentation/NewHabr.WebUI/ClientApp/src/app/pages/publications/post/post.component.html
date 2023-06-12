@@ -1,0 +1,20 @@
+<app-post-container [post]="post">
+    <app-like [count]="post?.LikesCount || 0" [isLiked]="post?.IsLiked || false" [likedObject]="post" (doLike)="like($event)"></app-like>
+
+    <h6>Комментарии:</h6>
+    <app-comment *ngFor="let comment of post?.Comments" [comment]="comment"></app-comment>
+    <div *ngIf="post?.Comments && post?.Comments!.length == 0" class="comments-banner">Список комментариев пуст!</div>
+
+    <ng-container *ngIf="isAuth && !userInfo?.Banned">
+        <h6>Добавление нового комментария:</h6>
+        <div class="comment-container">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Текст</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" [(ngModel)]="commentText">
+            </div>
+            <button type="button" class="btn btn-outline-dark" (click)="addComment()">Опубликовать</button>
+        </div>
+    </ng-container>
+</app-post-container>

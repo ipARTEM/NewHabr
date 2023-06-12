@@ -1,0 +1,11 @@
+<div class="comment-container">
+    <div class="author">
+        <span (click)="navigate(comment.UserId)">{{ comment.Username }}&nbsp;</span>
+        <span>прокомментировал {{ comment.ModifiedAt | convertDate }}</span>
+    </div>
+    <div class="text">
+        <span>{{ comment.Text }}</span>
+    </div>
+
+    <app-like [count]="comment?.LikesCount || 0" [isLiked]="comment?.IsLiked || false" [likedObject]="comment" (doLike)="like($event)"></app-like>
+</div>

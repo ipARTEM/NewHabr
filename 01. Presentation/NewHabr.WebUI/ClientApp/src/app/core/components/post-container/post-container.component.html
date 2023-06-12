@@ -1,0 +1,21 @@
+<div class="post-container">
+    <div class="author" *ngIf="userId && userName">
+        <span (click)="navigate(userId)">{{ userName }}</span> опубликовал <span>{{ post!.PublishedAt | convertDate }}</span>
+    </div>
+    <div class="cats" *ngIf="post?.Categories?.length !== 0">
+        <span *ngFor="let cat of post?.Categories" (click)="categoryNavigate(cat.Id)">{{ cat.Name }}</span>
+    </div>
+    <div class="tags" *ngIf="post?.Tags?.length !== 0">
+        <span class="badge bg-light" *ngFor="let tag of post?.Tags" (click)="tagNavigate(tag.Id)">#{{ tag.Name }}</span>
+    </div>
+    <div class="title">
+        <h3>{{ post?.Title }}</h3>
+    </div>
+    <div class="image">
+        <img [attr.src]="post?.ImgURL">
+    </div>
+
+    <div #htmlContainer></div>
+
+    <ng-content #name></ng-content>
+</div>

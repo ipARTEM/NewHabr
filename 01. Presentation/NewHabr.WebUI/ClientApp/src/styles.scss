@@ -1,0 +1,43 @@
+@import '/src/assets/scss/colors.scss';
+@import '/src/assets/scss/mixins.scss';
+@import '/node_modules/bootstrap-icons/font/bootstrap-icons.scss';
+
+/* You can add global styles to this file, and also import other style files */
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #e01a76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+body {
+  background-color: get-color(light-grey);
+}
+
+.disable {
+  display: none;
+}
+
+.info-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  i {
+      color: gray;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,24 @@
+<div class="form-container">
+    <h5>Введите свои учётные данные</h5>
+
+    <form>
+        <div class="form-group">
+            <label for="userName">Логин</label>
+            <input type="text" class="form-control" id="userName" placeholder="Логин" [(ngModel)]="userName" name="userName">
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль</label>
+            <input type="password" class="form-control" id="password" placeholder="Пароль" [(ngModel)]="password" name="password">
+        </div>
+
+        <button type="submit" class="btn btn-outline-dark" (click)="login()">Войти</button>
+
+        <div class="variant">
+            Если Вы забыли пароль, то перейдите на <a [routerLink]="'/accounts/recovery'">форму восстановления пароля</a>
+        </div>
+    
+        <div class="variant">
+            Если Вы новый пользователь, то перейдите на <a [routerLink]="'/accounts/register'">форму регистрации</a>
+        </div>
+    </form>
+</div>
